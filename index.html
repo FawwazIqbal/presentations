@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LynithDev/webimate-lib/dist/main.css">
+    <script src="https://cdn.jsdelivr.net/gh/LynithDev/webimate-lib/dist/main.js" defer></script>
+
     <title>Gateway Website</title>
     <style>
         body {
@@ -11,12 +15,16 @@
             padding: 0;
             background-color: #100e0e;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
             text-align: center;
         }
+
         .button {
+            transition: all 0.3s ease;
+            position: relative;
             display: inline-block;
             padding: 10px 20px;
             margin: 10px;
@@ -24,11 +32,80 @@
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.5s ease;
         }
+
+        @keyframes rainbow {
+            0% {
+                color: red;
+            }
+
+            16% {
+                color: orange;
+            }
+
+            33% {
+                color: yellow;
+            }
+
+            50% {
+                color: green;
+            }
+
+            66% {
+                color: blue;
+            }
+
+            83% {
+                color: indigo;
+            }
+
+            100% {
+                color: violet;
+            }
+        }
+
+
+        @keyframes buttonEnlarge {
+            0% {
+                transform: scale(1);
+                /* Initial size */
+            }
+
+            100% {
+                transform: scale(1.1);
+                /* Enlarged size */
+            }
+        }
+
+        @keyframes buttonShrink {
+            0% {
+                transform: scale(1.1);
+                /* Initial size */
+            }
+
+            100% {
+                transform: scale(1);
+                /* Shrunk size */
+            }
+        }
+
+        .shrink {
+            animation: buttonShrink 0.3s ease forwards;
+            /* Apply animation */
+        }
+
+
+        .enlarge {
+            animation: buttonEnlarge 0.3s ease forwards;
+            /* Apply animation */
+        }
+
         .button:hover {
-            background-color: #0056b3;
+            background-color: #5800ef;
+
         }
+
         :root {
             --red: #ff0000;
             --orange: #ff9100;
@@ -61,11 +138,25 @@
         }
 
         @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-            100% { transform: translateX(0); }
+            0% {
+                transform: translateY(0);
+            }
+
+            25% {
+                transform: translateY(-5px);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+
+            75% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
 
         body {
@@ -150,7 +241,7 @@
         }
 
         h1>.magic>.magic-star>svg>path {
-            fill: var(--purple);
+            fill: var(--green);
         }
 
         h1>.magic2>.magic-star2 {
@@ -193,19 +284,18 @@
         }
 
         h1>.magic2>.magic-text {
-            animation: background-pan 2s linear infinite;
-            background: linear-gradient(to right,
+            animation: background-pan 0.9s linear infinite;
+            background: linear-gradient(to left,
                     var(--blue),
-                    var(--purple),
                     var(--pink),
-                    var(--blue));
+                    var(--purple));
             background-size: 200%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             white-space: nowrap;
         }
-        
+
         h1.sub {
             margin-top: -38px;
             font-size: clamp(1.7em, 2vw, 2em);
@@ -220,57 +310,197 @@
             margin-top: -37px;
             font-size: clamp(1em, 2vw, 2em);
         }
+
+        .rainbow-gradient {
+            position: fixed;
+            /* Fixed position to stay on top of the screen */
+            top: 0;
+            /* Align to the top of the screen */
+            left: 0;
+            /* Align to the left of the screen */
+            width: 100%;
+            /* Full width of the viewport */
+            height: 3px;
+            /* Height of the rainbow bar */
+            background: linear-gradient(45deg, #5f86f2, #a65ff2, #f25fd0, #f25f61, #f2cb5f, #abf25f, #5ff281, #5ff2f0, #5ff281, #abf25f, #f2cb5f, #f25f61, #f25fd0, #a65ff2, #5f86f2);
+            background-size: 300% 100%;
+            /* Width to cover the whole viewport */
+            animation: moveGradient 10s alternate infinite;
+            /* Animation for color movement */
+        }
+
+        .rainbow-animation::before {
+            box-sizing: border-box;
+            content: '';
+            position: absolute;
+            z-index: -2;
+            left: calc(var(--max-size) * -0.5 + 50%);
+            top: calc(var(--max-size) * -0.5 + 50%);
+            width: 100vw;
+            /* Full width of the viewport */
+            height: 100vh;
+            /* Full height of the viewport */
+            background-repeat: no-repeat;
+            background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+            background-image: conic-gradient(#a65ff2, #f25f61, #f2cb5f, #5ff281, #5ff2f0, #a65ff2);
+            animation: rotate 10s linear infinite;
+        }
+
+        .rainbow-gradient::after {
+            position: absolute;
+            content: "";
+            top: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+            z-index: -1;
+            width: calc(100% + var(--border-width) * 2);
+            height: calc(100% + var(--border-width) * 2);
+            background: linear-gradient(45deg, #5f86f2, #a65ff2, #f25fd0, #f25f61, #f2cb5f, #abf25f, #5ff281, #5ff2f0, #5ff281, #abf25f, #f2cb5f, #f25f61, #f25fd0, #a65ff2, #5f86f2);
+            background-size: 300% 300%;
+            background-position: 0 50%;
+            animation: moveGradient 10s alternate infinite;
+        }
+
+        @keyframes moveGradient {
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0turn);
+            }
+
+            to {
+                transform: rotate(1turn);
+            }
+        }
     </style>
 </head>
+
 <body>
+    <div class="rainbow-gradient"></div>
+    <div class="container">
 
-<div class="container">
-    <h1 class="animate fade top queue=1">
-        
-        <span class="magic">
-            <span class="magic-star">
-                <svg viewBox="0 0 512 512">
-                    <path
-                        d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
+        <h1 class="animate fade top queue=1">
+            <span class="magic">
+                <span class="magic-star">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                    </svg>
+                </span>
+                <span class="magic-star">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                    </svg>
+                </span>
+                <span class="magic-star">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                    </svg>
+                </span>
+                <span class="magic-text">Pilih slaid</span>
             </span>
-            <span class="magic-star">
-                <svg viewBox="0 0 512 512">
-                    <path
-                        d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
-            </span>
-            <span class="magic-star">
-                <svg viewBox="0 0 512 512">
-                    <path
-                        d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
-            </span>
-            <span class="magic-text">Pilih slaid</span>
-        </span>
-    </h1>
-    <a href="/presentations/Novel Leftenan Bab 9.pdf" class="button">Bab 9</a>
-    <a href="/presentations/Novel Leftenan Bab 10.pdf" class="button">Bab 10</a>
-    <a href="/presentations/Novel Leftenan Bab 33.pdf" class="button">Bab 33</a>
-    <a href="/presentations/Novel Leftenan Bab 34.pdf" class="button">Bab 34</a>
-</div>
-<script>
-    function showNotification() {
-        const notification = document.createElement('div');
-        notification.classList.add('notification');
-        notification.textContent = 'Harith tak siap lagi';
-        document.body.appendChild(notification);
 
-        setTimeout(() => {
-            notification.classList.add('show');
+
+        </h1>
+        <h1 class="sub2 animate fade right queue=2">
+            <a class=""> Sinopsis </a></span>
+            <span class="magic2">
+
+                <a class="magic-text">Novel Leftenan Adnan </a></span>
+        </h1>
+        <a href="/presentations/Novel Leftenan Bab 9.pdf" data-text="Fawwaz" class="button">Bab 9</a>
+        <a href="/presentations/Novel Leftenan Bab 10.pdf" data-text="Harith" class="button">Bab 10</a>
+        <a href="/presentations/Novel Leftenan Bab 33.pdf" data-text="Fawwaz" class="button">Bab 33</a>
+        <a href="/presentations/Novel Leftenan Bab 34.pdf" data-text="Harith" class="button">Bab 34</a>
+
+    </div>
+    <script>
+        function showNotification() {
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = 'Harith tak siap lagi';
+            document.body.appendChild(notification);
+
             setTimeout(() => {
-                notification.classList.add('fade');
+                notification.classList.add('show');
                 setTimeout(() => {
-                    notification.remove();
+                    notification.classList.add('fade');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 1500); // Adjust the time (in milliseconds) before fading starts
+            }, 100); // Delay added to ensure smooth transition
+        }
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.setAttribute('data-original-text', button.textContent);
+            button.addEventListener('mouseenter', () => {
+                button.textContent = button.getAttribute('data-text');
+                button.classList.add('enlarge');
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.textContent = button.getAttribute('data-original-text');
+                button.style.animation = null;
+                button.classList.remove('enlarge');
+                button.classList.add('shrink');
+                setTimeout(() => {
+                    button.classList.remove('shrink');
                 }, 300);
-            }, 1500); // Adjust the time (in milliseconds) before fading starts
-        }, 100); // Delay added to ensure smooth transition
-    }
-</script>
+            });
+        });
+
+    </script>
+    <script src="https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js"></script>
+    <script>
+        let index = 0,
+            interval = 1000;
+
+        const rand = (min, max) =>
+            Math.floor(Math.random() * (max - min + 1)) + min;
+
+        const animate = star => {
+            star.style.setProperty("--star-left", `${rand(-10, 100)}%`);
+            star.style.setProperty("--star-top", `${rand(-40, 80)}%`);
+
+            star.style.animation = "none";
+            star.offsetHeight;
+            star.style.animation = "";
+        }
+
+        let timeouts = [],
+            intervals = [];
+
+        const magic = document.querySelector(".magic");
+        const button = document.querySelectorAll(".button");
+
+
+
+        magic.onmouseenter = () => {
+            let index = 1;
+
+            for (const star of document.getElementsByClassName("magic-star")) {
+                timeouts.push(setTimeout(() => {
+                    animate(star);
+
+                    intervals.push(setInterval(() => animate(star), 1000));
+                }, index++ * 300));
+            };
+        }
+
+        magic.onmouseleave = onMouseLeave = () => {
+            for (const t of timeouts) clearTimeout(t);
+            for (const i of intervals) clearInterval(i);
+
+            timeouts = [];
+            intervals = [];
+        }
+    </script>
 </body>
+
 </html>
